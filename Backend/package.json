@@ -1,0 +1,11 @@
+{
+  "name": "document-organiser-backend",
+  "version": "1.0.0",
+  "description": "simple backend for document-organiser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "naddam",
+  "license": "ISC"
+}

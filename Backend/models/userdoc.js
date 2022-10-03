@@ -7,6 +7,10 @@ const Userdoc = db.model('Userdoc', {
         type: Schema.Types.ObjectId,
         ref: 'Doctype'
     },
+    _owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     details: [{key: String, keyType: {type: String, enum: ['Number', 'String', 'Date']}, value: Schema.Types.Mixed}],
     expires_at: Date,
 });

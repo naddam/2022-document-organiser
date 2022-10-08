@@ -1,7 +1,7 @@
 const requireOption = require('../generic/requireOption');
 const jwt = require("jsonwebtoken");
 
-module.exports = function (objectrepository) {
+module.exports = function (objectrepository, accessLevel) {
     const UserModel = requireOption(objectrepository, 'UserModel');
 
     return function (req, res, next) {
@@ -21,7 +21,25 @@ module.exports = function (objectrepository) {
                 id: decodedToken.userId,
                 role: user.role
             };
-            return next();
+            if(accessLevel === 'User'){
+                return next();
+            }
+            else if(accessLevel === 'Administrator'){
+                if(user.role === 'Administrator' || user.role === 'Superadmin'){
+                    return next();
+                }
+                else{
+                    res.status(200).json({success:false, message: "Error! Access level too low."});
+                }
+            }
+            else if(accessLevel === 'Superadmin'){
+                if(user.role === 'Superadmin'){
+                    return next();
+                }
+                else{
+                    res.status(200).json({success:false, message: "Error! Access level too low."});
+                }
+            }
         });
     };
 };

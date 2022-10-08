@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 require('./routes/index')(app);
 
 app.use((err, req, res, next)=> {
-    res.end('Baj van...');
+    res.json({ success: true});
     console.log(err);
 })
 

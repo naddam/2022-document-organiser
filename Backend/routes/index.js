@@ -33,7 +33,7 @@ module.exports = function (app) {
 
 
     app.get('/',
-        authMW(objectRepository),
+        authMW(objectRepository, 'User'),
         (_, res) => {
             res.json(res.locals.authenticatedUser)
             //res.send("The API server is RUNNING")
@@ -51,75 +51,90 @@ module.exports = function (app) {
     //TYPES
 
     app.get('/types',
+        authMW(objectRepository, 'Superadmin'),
         getTypesMW(objectRepository),
-        (_, res) => { res.json(res.locals.doctypes) },
+        (_, res) => { res.json({ success: true, data: res.locals.doctypes }) },
     );
     app.post('/types',
+        authMW(objectRepository, 'Superadmin'),
         addTypeMW(objectRepository),
-        (_, res) => { res.json(res.locals.doctype) },
+        (_, res) => { res.json({ success: true, data: res.locals.doctype }) },
     );
     app.get('/types/:typeid',
+        authMW(objectRepository, 'Superadmin'),
         getTypeMW(objectRepository),
-        (_, res) => { res.json(res.locals.doctype) },
+        (_, res) => { res.json({ success: true, data: res.locals.doctype }) },
     );
     app.patch('/types/:typeid',
+        authMW(objectRepository, 'Superadmin'),
         getTypeMW(objectRepository),
         saveTypeMW(objectRepository),
-        (_, res) => { res.json(res.locals.doctype) },
+        (_, res) => { res.json({ success: true, data: res.locals.doctype }) },
     );
     app.delete('/types/:typeid',
+        authMW(objectRepository, 'Superadmin'),
         getTypeMW(objectRepository),
         delTypeMW(objectRepository),
-        (_, res) => { res.json(res.locals.doctype) },
+        (_, res) => { res.json({ success: true, data: res.locals.doctype }) },
     );
 
     //USERS
 
     app.get('/users',
+        authMW(objectRepository, 'Administrator'),
         getUsersMW(objectRepository),
-        (_, res) => { res.json(res.locals.users) },
+        (_, res) => { res.json({ success: true, data: res.locals.users }) },
     );
     app.post('/users',
+        authMW(objectRepository, 'Superadmin'),
         addUserMW(objectRepository),
-        (_, res) => { res.json(res.locals.user) },
+        (_, res) => { res.json({ success: true, data: res.locals.user }) },
     );
     app.get('/users/:userid',
+        authMW(objectRepository, 'Administrator'),
         getUserMW(objectRepository),
-        (_, res) => { res.json(res.locals.user) },
+        (_, res) => { res.json({ success: true, data: res.locals.user }) },
     );
     app.patch('/users/:userid',
+        authMW(objectRepository, 'Superadmin'),
         getUserMW(objectRepository),
         saveUserMW(objectRepository),
-        (_, res) => { res.json(res.locals.user) },
+        (_, res) => { res.json({ success: true, data: res.locals.user }) },
     );
     app.delete('/users/:userid',
+        authMW(objectRepository, 'Superadmin'),
         getUserMW(objectRepository),
         delUserMW(objectRepository),
-        (_, res) => { res.json(res.locals.user) },
+        (_, res) => { res.json({ success: true, data: res.locals.user }) },
     );
 
     //USERDOCS
 
     app.get('/userdocs',
+        authMW(objectRepository, 'User'),
         getUserdocsMW(objectRepository),
-        (_, res) => { res.json(res.locals.userdocs) },
+        (_, res) => { res.json({ success: true, data: res.locals.userdocs }) },
     );
     app.post('/userdocs',
+        authMW(objectRepository, 'User'),
         addUserdocMW(objectRepository),
-        (_, res) => { res.json(res.locals.userdoc) },
+        (_, res) => { res.json({ success: true, data: res.locals.userdoc }) },
     );
     app.get('/userdocs/:userdocid',
+        authMW(objectRepository, 'User'),
         getUserdocMW(objectRepository),
-        (_, res) => { res.json(res.locals.userdoc) },
+        (_, res) => { res.json({ success: true, data: res.locals.userdoc }) },
     );
     app.patch('/userdocs/:userdocid',
+        authMW(objectRepository, 'User'),
         getUserdocMW(objectRepository),
         saveUserdocMW(objectRepository),
-        (_, res) => { res.json(res.locals.userdoc) },
+        (_, res) => { res.json({ success: true, data: res.locals.userdoc }) },
     );
     app.delete('/userdocs/:userdocid',
+        authMW(objectRepository, 'User'),
         getUserdocMW(objectRepository),
         delUserdocMW(objectRepository),
-        (_, res) => { res.json(res.locals.userdoc) },
+        (_, res) => { res.json({ success: true, data: res.locals.userdoc }) },
     );
 }

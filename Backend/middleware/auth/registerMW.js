@@ -31,7 +31,7 @@ module.exports = function (objectrepository) {
             token = jwt.sign(
                 { userId: newUser.id, email: newUser.email },
                 "woooosh-magical-secret-key",
-                { expiresIn: "1h" }
+                { expiresIn: "24h" }
             );
         } catch (err) {
             const error = new Error("Error! Something went wrong.");

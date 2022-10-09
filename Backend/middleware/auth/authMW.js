@@ -5,6 +5,9 @@ module.exports = function (objectrepository, accessLevel) {
     const UserModel = requireOption(objectrepository, 'UserModel');
 
     return function (req, res, next) {
+        if(!req.headers.authorization){
+            res.status(200).json({success:false, message: "Error! Token was not provided."});
+        }
         const token = req.headers.authorization.split(' ')[1]; 
         //Authorization: 'Bearer TOKEN'
         if(!token)

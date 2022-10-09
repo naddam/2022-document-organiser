@@ -4,7 +4,8 @@ const cors = require('cors')
 
 const corsOptions = {
     origin: 'http://localhost:4040',
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
+    credentials: true,
 }
   
 
@@ -18,7 +19,7 @@ app.use(bodyParser.json());
 require('./routes/index')(app);
 
 app.use((err, req, res, next)=> {
-    res.json({ success: true});
+    res.json({ success: false});
     console.log(err);
 })
 

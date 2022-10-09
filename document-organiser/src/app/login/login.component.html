@@ -1,0 +1,18 @@
+<div class="login-container">
+    <div class="login-title">
+        <h2>Log in</h2>
+    </div>
+    <div class="login-form">
+        <mat-form-field class="login-input" appearance="fill">
+          <mat-label>E-mail</mat-label>
+          <input #emailBox matInput type="email">
+        </mat-form-field>
+      
+        <mat-form-field class="login-input" appearance="fill">
+          <mat-label>Password</mat-label>
+          <input #passwordBox matInput type="password">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="tryLogin(emailBox.value, passwordBox.value)">Log in</button>
+    </div>
+    <span>{{username}} -- {{id}}</span>
+</div>

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -10,14 +11,18 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
+  //TODO: make this bitch observable
   public user: User | null = null;
   private apiServer = environment.apiServer;
 
   constructor(
     private httpClient: HttpClient,
     private cookieService: CookieService,
+    private router: Router
   ) { 
-    //this.login("teszt@elek.hu", "qwertzu").subscribe();
+    if(this.cookieService.check("DocOrgToken")){
+      this.authenticate().subscribe();
+    }
   }
 
   public login(email: string, password: string): Observable<any> {
@@ -40,6 +45,18 @@ export class AuthService {
     }))
   }
 
+  public authenticate(): Observable<any> {
+    return this.httpClient.get<any>(this.apiServer +"/authenticate").pipe(tap((res: any) => {
+      if(res.success){
+        this.user = res.data;
+        console.log(this.user);
+        this.saveTokenAsCookie(res.data.token);
+        //this.router.navigate(['/']);
+      }
+    }))
+  }
+
+  //TODO localstorage instead
   public saveTokenAsCookie(token: string): void {
     this.cookieService.set(
       "DocOrgToken",

@@ -22,7 +22,10 @@ module.exports = function (objectrepository, accessLevel) {
             }
             res.locals.authenticatedUser = {
                 id: decodedToken.userId,
-                role: user.role
+                role: user.role,
+                name: user.name,
+                email: user.email,
+                token: token,
             };
             if(accessLevel === 'User'){
                 return next();

@@ -33,16 +33,20 @@ module.exports = function (app) {
 
 
     app.get('/',
-        authMW(objectRepository, 'User'),
         (_, res) => {
-            res.json(res.locals.authenticatedUser)
-            //res.send("The API server is RUNNING")
+            res.send("The API server is RUNNING")
         });
 
     //AUTH
 
     app.post('/login',
         loginMW(objectRepository),
+    );
+    app.get('/authenticate',
+        authMW(objectRepository, 'User'),
+        (_, res) => {
+            res.json({ success: true, data: res.locals.authenticatedUser})
+        }
     );
     app.post('/register',
         registerMW(objectRepository),

@@ -20,6 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ) { }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    //TODO get from local storage
     const token = this.cookieService.get('DocOrgToken');
     
     const auth = req.clone({ headers: new HttpHeaders().set(`Authorization`, `Bearer ${token}`) });

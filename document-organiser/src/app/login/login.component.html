@@ -14,5 +14,5 @@
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="tryLogin(emailBox.value, passwordBox.value)">Log in</button>
     </div>
-    <span>{{username}} -- {{id}}</span>
+    <span *ngIf="username">{{username}} -- {{id}}</span>
 </div>

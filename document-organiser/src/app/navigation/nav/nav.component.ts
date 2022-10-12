@@ -8,15 +8,24 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class NavComponent implements OnInit {
 
-  public login: boolean = true;
+  public user: any = null;
+  public drawerState: boolean = false;
 
   constructor(
     private authService: AuthService) { }
 
   ngOnInit(): void {
-    if(this.authService.user){
-      this.login = true;
-    }
+    this.authService.user$.subscribe((user) => {
+      this.user = user;
+      if (user) {
+
+      }
+    })
+  }
+
+  logout() {
+    this.authService.logout();
+    this.drawerState = false;
   }
 
 }

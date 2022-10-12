@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,63 +10,81 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  //TODO: make this bitch observable
-  public user: User | null = null;
   private apiServer = environment.apiServer;
+  private authenticated = false;
 
   constructor(
     private httpClient: HttpClient,
-    private cookieService: CookieService,
     private router: Router
-  ) { 
-    if(this.cookieService.check("DocOrgToken")){
+  ) {
+    if (localStorage.getItem('DocOrgToken')) {
       this.authenticate().subscribe();
     }
   }
 
+  private user: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+
+  public get user$(): Observable<User | null> {
+    return this.user.asObservable();
+  }
+
   public login(email: string, password: string): Observable<any> {
-    return this.httpClient.post<any>(this.apiServer +"/login", {email: email, password: password}).pipe(tap((res: any) => {
-      if(res.success){
-        this.user = res.data;
-        console.log(this.user);
-        this.saveTokenAsCookie(res.data.token);
+    return this.httpClient.post<any>(this.apiServer + "/login", { email: email, password: password }).pipe(tap((res: any) => {
+      if (res.success) {
+        this.user.next(res.data);
+        this.authenticated = true;
+        this.saveTokenToStorage(res.data.token);
       }
     }))
   }
 
   public register(name: string, email: string, password: string): Observable<any> {
-    return this.httpClient.post<any>(this.apiServer +"/register", {name: name, email: email, password: password}).pipe(tap((res: any) => {
-      if(res.success){
-        this.user = res.data;
-        console.log(this.user);
-        this.saveTokenAsCookie(res.data.token);
+    return this.httpClient.post<any>(this.apiServer + "/register", { name: name, email: email, password: password }).pipe(tap((res: any) => {
+      if (res.success) {
+        this.user.next(res.data);
+        this.authenticated = true;
+        this.saveTokenToStorage(res.data.token);
       }
     }))
   }
 
   public authenticate(): Observable<any> {
-    return this.httpClient.get<any>(this.apiServer +"/authenticate").pipe(tap((res: any) => {
-      if(res.success){
-        this.user = res.data;
-        console.log(this.user);
-        this.saveTokenAsCookie(res.data.token);
-        //this.router.navigate(['/']);
+    if (this.authenticated) {
+      return this.user$;
+    }
+    return this.httpClient.get<any>(this.apiServer + "/authenticate").pipe(tap((res: any) => {
+      if (res.success) {
+        this.user.next(res.data);
+        this.authenticated = true;
+        console.log("Logged in as " + res.data.name);
+        this.saveTokenToStorage(res.data.token);
+        if (this.router.url === '/login') {
+          this.router.navigate(['/documents']);
+        }
       }
-    }))
+      if (!res.success) {
+        this.logout();
+      }
+    }),
+      switchMap((res) => {
+        if (res.success) {
+          return of(res.data);
+        }
+        else {
+          return of(null);
+        }
+      }))
   }
 
-  //TODO localstorage instead
-  public saveTokenAsCookie(token: string): void {
-    this.cookieService.set(
-      "DocOrgToken",
-      token,
-      1,
-      '/',
-      undefined,
-      true,
-      'Lax'
-    );
+  public logout() {
+    localStorage.removeItem('DocOrgToken');
+    this.router.navigate(['/login']);
+    this.user.next(null);
+    this.authenticated = false;
+  }
 
+  public saveTokenToStorage(token: string): void {
+    localStorage.setItem('DocOrgToken', token)
   }
 
 }

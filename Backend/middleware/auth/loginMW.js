@@ -20,9 +20,8 @@ module.exports = function (objectrepository) {
             return next(error);
         }
         if (!existingUser || existingUser.password != req.body.password) {
-            const error = Error("Wrong details please check at once");
-            res.status(401);
-            return next(error);
+            res.status(200).json({success:false, message: "Error! Invalid credentials!"});
+            return next();
         }
         let token;
         try {

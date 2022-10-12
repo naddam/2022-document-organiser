@@ -1,18 +1,48 @@
 <div class="login-container">
-    <div class="login-title">
-        <h2>Log in</h2>
-    </div>
-    <div class="login-form">
-        <mat-form-field class="login-input" appearance="fill">
-          <mat-label>E-mail</mat-label>
-          <input #emailBox matInput type="email">
-        </mat-form-field>
-      
-        <mat-form-field class="login-input" appearance="fill">
-          <mat-label>Password</mat-label>
-          <input #passwordBox matInput type="password">
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="tryLogin(emailBox.value, passwordBox.value)">Log in</button>
-    </div>
-    <span *ngIf="username">{{username}} -- {{id}}</span>
+  <div class="login-title">
+    <h2 *ngIf="!registrationMode">Log in</h2>
+    <h2 *ngIf="registrationMode">Sign up</h2>
+  </div>
+  <form class="login-form">
+    <mat-form-field *ngIf="registrationMode" color="accent" class="login-input" appearance="fill">
+      <mat-label>Full name</mat-label>
+      <input matInput type="text" [formControl]="name">
+      <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="registrationMode" color="accent" class="login-input" appearance="fill">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" [formControl]="email">
+      <mat-error *ngIf="email.invalid">You must enter a valid e-mail address</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="registrationMode" color="accent" class="login-input" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [formControl]="password">
+      <mat-error *ngIf="email.invalid&&registrationMode">Password must be at least 8 characters long</mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="!registrationMode" color="accent" class="login-input" appearance="fill">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" [formControl]="email2">
+    </mat-form-field>
+
+    <mat-form-field *ngIf="!registrationMode" color="accent" class="login-input" appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [formControl]="password2">
+    </mat-form-field>
+
+    <div *ngIf="loginError && !registrationMode" class="error-message">Invalid credentials!</div>
+    <div *ngIf="loginError && registrationMode" class="error-message">E-mail address is already in use!</div>
+
+    <button *ngIf="!registrationMode" mat-raised-button color="primary" type="button"
+      (click)="tryLogin()">Log in</button>
+    <button *ngIf="registrationMode" [disabled]="email.invalid || password.invalid || name.invalid" mat-raised-button color="primary" type="button"
+      (click)="register()">Sign up</button>
+  </form>
+  <div class="register-toggle">
+    <p *ngIf="!registrationMode">Don't have an account yet?</p>
+    <p *ngIf="registrationMode">Already have an account?</p>
+    <button style="margin-left: 20px" mat-raised-button color="primary" (click)="switchMode()">{{registrationMode ? "Log in" : "Sign up" }}</button>
+  </div>
 </div>

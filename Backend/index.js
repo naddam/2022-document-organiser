@@ -19,7 +19,9 @@ app.use(bodyParser.json());
 require('./routes/index')(app);
 
 app.use((err, req, res, next)=> {
-    res.json({ success: false});
+    if(!res.headersSent){
+        res.json({ success: false});
+    }
     console.log(err);
 })
 

@@ -1,0 +1,10 @@
+<div class="profile-container">
+    <div class="profile-title">{{user.name}}'s Profile</div>
+    <form class="login-form">
+        <mat-form-field color="accent" class="login-input" appearance="fill">
+            <mat-label>Full name</mat-label>
+            <input matInput type="text" [formControl]="name" [disabled]="true">
+            <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
+        </mat-form-field>
+    </form>
+</div>

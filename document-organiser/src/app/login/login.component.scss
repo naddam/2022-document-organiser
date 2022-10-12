@@ -16,5 +16,21 @@
         .login-input{
             width: 400px;
         }
+        .hidden{
+            display: none !important;
+        }
+        .error-message{
+            color: red;
+            margin: 5px 5px 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+    }
+    .register-toggle{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
     }
 }

@@ -23,7 +23,6 @@ module.exports = function (objectrepository) {
             await newUser.save();
         } catch {
             const error = new Error("Error! Something went wrong.");
-            res.status(409);
             return next(error);
         }
         let token;

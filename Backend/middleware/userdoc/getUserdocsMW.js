@@ -15,7 +15,7 @@ module.exports = function (objectrepository) {
             });
         }
         else{
-            UserdocModel.find({_owner: res.locals.authenticatedUser.id}, (err, userdocs) => {
+            UserdocModel.find({_owner: res.locals.authenticatedUser.userId}, (err, userdocs) => {
                 if (err) {
                     return next(err);
                 }

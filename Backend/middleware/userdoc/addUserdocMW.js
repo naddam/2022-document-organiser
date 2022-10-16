@@ -19,7 +19,7 @@ module.exports = function (objectrepository) {
             res.locals.userdoc._owner = req.body._owner;
         }
         else{
-            res.locals.userdoc._owner = res.locals.authenticatedUser.id;
+            res.locals.userdoc._owner = res.locals.authenticatedUser.userId;
         }
         res.locals.userdoc.expires_at = req.body.expires_at;
         res.locals.userdoc.details = JSON.parse(req.body.details);

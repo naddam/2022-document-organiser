@@ -4,7 +4,7 @@ module.exports = function (objectrepository) {
         if (typeof res.locals.userdoc === 'undefined') {
             return next();
         }
-        if (res.locals.authenticatedUser.id === res.locals.userdoc._owner || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin') {
+        if (res.locals.authenticatedUser.userId === res.locals.userdoc._owner || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin') {
             res.locals.userdoc.remove((err) => {
                 if (err) {
                     return next(err);

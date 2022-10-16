@@ -7,19 +7,19 @@
     <mat-form-field *ngIf="registrationMode" color="accent" class="login-input" appearance="fill">
       <mat-label>Full name</mat-label>
       <input matInput type="text" [formControl]="name">
-      <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
+      <mat-error>You must enter a value</mat-error>
     </mat-form-field>
 
     <mat-form-field *ngIf="registrationMode" color="accent" class="login-input" appearance="fill">
       <mat-label>E-mail</mat-label>
       <input matInput type="email" [formControl]="email">
-      <mat-error *ngIf="email.invalid">You must enter a valid e-mail address</mat-error>
+      <mat-error>You must enter a valid e-mail address</mat-error>
     </mat-form-field>
 
     <mat-form-field *ngIf="registrationMode" color="accent" class="login-input" appearance="fill">
       <mat-label>Password</mat-label>
       <input matInput type="password" [formControl]="password">
-      <mat-error *ngIf="email.invalid&&registrationMode">Password must be at least 8 characters long</mat-error>
+      <mat-error>Password must be at least 8 characters long</mat-error>
     </mat-form-field>
 
     <mat-form-field *ngIf="!registrationMode" color="accent" class="login-input" appearance="fill">

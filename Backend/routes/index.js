@@ -100,7 +100,7 @@ module.exports = function (app) {
         (_, res) => { res.json({ success: true, data: res.locals.user }) },
     );
     app.patch('/users/:userid',
-        authMW(objectRepository, 'Superadmin'),
+        authMW(objectRepository, 'User'),
         getUserMW(objectRepository),
         saveUserMW(objectRepository),
         (_, res) => { res.json({ success: true, data: res.locals.user }) },

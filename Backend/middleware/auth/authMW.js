@@ -21,7 +21,7 @@ module.exports = function (objectrepository, accessLevel) {
                 return next(err);
             }
             res.locals.authenticatedUser = {
-                id: decodedToken.userId,
+                userId: decodedToken.userId,
                 role: user.role,
                 name: user.name,
                 email: user.email,

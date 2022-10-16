@@ -10,7 +10,7 @@ module.exports = function (objectrepository) {
             if (err || !userdoc) {
                 return next(err);
             }
-            if (res.locals.authenticatedUser.id === userdoc._owner || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin') {
+            if (res.locals.authenticatedUser.userId === userdoc._owner || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin') {
                 res.locals.userdoc = userdoc;
             }
             else{

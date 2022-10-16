@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'documents',
     canActivate: [AuthUserGuard],
-    component: LoginComponent
+    component: ProfileComponent
   },
   // Fallback
   {

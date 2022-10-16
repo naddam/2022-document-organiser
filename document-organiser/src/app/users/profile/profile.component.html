@@ -1,10 +1,52 @@
 <div class="profile-container">
-    <div class="profile-title">{{user.name}}'s Profile</div>
-    <form class="login-form">
+    <h2 class="profile-title">{{user.name}}'s profile</h2>
+    <form class="profile-form">
         <mat-form-field color="accent" class="login-input" appearance="fill">
             <mat-label>Full name</mat-label>
-            <input matInput type="text" [formControl]="name" [disabled]="true">
-            <mat-error *ngIf="name.invalid">You must enter a value</mat-error>
+            <input matInput type="text" [formControl]="name">
+            <button mat-icon-button *ngIf="name.disabled" matSuffix (click)="changeName()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="!name.disabled" matSuffix (click)="cancelNameEdit()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-error>You must enter a value</mat-error>
         </mat-form-field>
+
+        <mat-form-field color="accent" class="login-input" appearance="fill">
+            <mat-label>E-mail</mat-label>
+            <input matInput type="email" [formControl]="email">
+            <button mat-icon-button *ngIf="email.disabled" matSuffix (click)="changeEmail()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="!email.disabled" matSuffix (click)="cancelEmailEdit()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-error>You must enter a valid e-mail address</mat-error>
+        </mat-form-field>
+
+        <mat-form-field color="accent" class="login-input" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" [formControl]="password">
+            <button mat-icon-button *ngIf="password.disabled" matSuffix (click)="changePW()">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="!password.disabled" matSuffix (click)="cancelPWEdit()">
+                <mat-icon>close</mat-icon>
+            </button>
+            <mat-error>Password must be at least 8 characters long</mat-error>
+        </mat-form-field>
+
+        <mat-form-field color="accent" class="login-input" appearance="fill">
+            <mat-label>Access level</mat-label>
+            <input matInput type="text" [formControl]="role">
+        </mat-form-field>
+        <div class="btn-holder">
+            <button class="btn" mat-raised-button color="warn" type="button"
+                (click)="cancelNameEdit(); cancelEmailEdit(); cancelPWEdit();">Cancel</button>
+            <button class="btn"
+                [disabled]="email.invalid || email.value.length<5|| password.value.length<8 || name.invalid"
+                mat-raised-button color="accent" type="button" (click)="saveChanges()">Save</button>
+        </div>
     </form>
 </div>

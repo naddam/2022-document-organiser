@@ -9,8 +9,13 @@ module.exports = function (objectrepository) {
             if(err || !user){
                 return next(err);
             }
-            res.locals.user = user;
-            return next();
+            if(user._id == res.locals.authenticatedUser.userId || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin'){
+                res.locals.user = user;
+                return next();
+            }
+            else{
+                res.status(200).json({success:false, message: "Error! Access level too low."});
+            }
         });
     };
 };

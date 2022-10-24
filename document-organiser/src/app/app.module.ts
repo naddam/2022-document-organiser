@@ -18,13 +18,23 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './users/profile/profile.component';
+import { DocumentsComponent } from './documents/documents.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { DocumentDetailsComponent } from './documents/document-details/document-details.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    DocumentsComponent,
+    DocumentDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +48,13 @@ import { ProfileComponent } from './users/profile/profile.component';
     MatListModule,
     MatInputModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule
   ],
   providers: [CookieService,
     {

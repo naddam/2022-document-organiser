@@ -8,9 +8,9 @@ module.exports = function (objectrepository) {
     return function (req, res, next) {
         UserdocModel.findOne({ _id: req.params.userdocid }, (err, userdoc) => {
             if (err || !userdoc) {
-                return next(err);
+                res.status(200).json({success:false, message: "Error! Document not found."});
             }
-            if (res.locals.authenticatedUser.userId === userdoc._owner || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin') {
+            else if (res.locals.authenticatedUser.userId === `${userdoc._owner}` || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin') {
                 res.locals.userdoc = userdoc;
             }
             else{

@@ -1,25 +1,30 @@
 .table-container{
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  padding: 10px;
 
   .table-holder{
     width: 100%;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 140px);
     overflow-y: auto;
 
     .full-width-table {
       width: 100%;
     }
+    .table-row:hover{
+      background-color: rgb(39, 39, 39);
+      cursor:pointer;
+    }
   }
   .floaty-bottom {
     position: absolute;
-    bottom: 0;
-    width: 100%;
+    bottom: 10px;
+    width: calc(100% - 20px);
   }
   .my-fab{
     position: absolute;
-    bottom: 5px;
-    left: 5px;
+    bottom: 15px;
+    left: 15px;
     height: 46px;
   }
 }

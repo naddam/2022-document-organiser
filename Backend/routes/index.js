@@ -55,7 +55,7 @@ module.exports = function (app) {
     //TYPES
 
     app.get('/types',
-        authMW(objectRepository, 'Superadmin'),
+        authMW(objectRepository, 'User'),
         getTypesMW(objectRepository),
         (_, res) => { res.json({ success: true, data: res.locals.doctypes }) },
     );
@@ -65,7 +65,7 @@ module.exports = function (app) {
         (_, res) => { res.json({ success: true, data: res.locals.doctype }) },
     );
     app.get('/types/:typeid',
-        authMW(objectRepository, 'Superadmin'),
+        authMW(objectRepository, 'User'),
         getTypeMW(objectRepository),
         (_, res) => { res.json({ success: true, data: res.locals.doctype }) },
     );

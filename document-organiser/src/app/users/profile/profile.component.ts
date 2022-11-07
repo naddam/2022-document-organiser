@@ -23,7 +23,6 @@ export class ProfileComponent implements OnInit {
   ) {
     authService.user$.subscribe((user) => {
       if (user) {
-        console.log(user);
         this.user = user;
         this.name.setValue(user.name)
         this.name.disable();

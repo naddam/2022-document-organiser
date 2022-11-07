@@ -26,6 +26,7 @@ import { DocumentDetailsComponent } from './documents/document-details/document-
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { MatCardModule } from '@angular/material/card';
     MatRadioModule,
     MatCardModule
   ],
-  providers: [CookieService,
+  providers: [DatePipe,
+    CookieService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

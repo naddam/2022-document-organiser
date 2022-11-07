@@ -41,11 +41,11 @@ export class DocumentsComponent implements AfterViewInit {
   }
 
   public getRecord(row: any){
-    console.log(row);
-    //this.openDetailsOverlay();
+    //console.log(row);
+    this.openDetailsOverlay(row);
   }
 
-  public openDetailsOverlay(){
+  public openDetailsOverlay(doc?: any){
     const overlayRef = this.overlay.create({
       positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically(),
       scrollStrategy: this.overlay.scrollStrategies.block(),
@@ -53,6 +53,16 @@ export class DocumentsComponent implements AfterViewInit {
     });
 
     const componentRef = overlayRef.attach(new ComponentPortal(DocumentDetailsComponent));
+
+    if(doc){
+      componentRef.instance.docIn = doc;
+    }
+
+    componentRef.instance.newItemEvent.subscribe(() =>{
+      overlayRef.detach();
+      overlayRef.dispose();
+      window.location.reload();
+    })
 
     overlayRef.backdropClick()
       .subscribe(() => {
@@ -69,7 +79,9 @@ export class DocumentsComponent implements AfterViewInit {
         name: element.name,
         doctype: element.doctype.name,
         expires_at: new Date(element.expires_at),
-        owner: element.owner.name
+        owner: element.owner.name,
+        doctypeId: element.doctype._id,
+        details: element.details
       }
       result.push(temp);
     });

@@ -22,7 +22,12 @@ module.exports = function (objectrepository) {
             res.locals.userdoc._owner = res.locals.authenticatedUser.userId;
         }
         res.locals.userdoc.expires_at = req.body.expires_at;
-        res.locals.userdoc.details = JSON.parse(req.body.details);
+        try{
+            res.locals.userdoc.details = JSON.parse(req.body.details);
+        }
+        catch{
+            res.locals.userdoc.details = req.body.details;
+        }
         res.locals.userdoc.save((err) => {
             if (err) {
                 return next(err);

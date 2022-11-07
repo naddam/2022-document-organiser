@@ -83,9 +83,9 @@ export class DocumentsDataSource extends DataSource<DocumentsItem> {
       switch (this.sort?.active) {
         case 'name': return compare(a.name, b.name, isAsc);
         case 'id': return compare(+a.id, +b.id, isAsc);
-        case 'owner': return compare(+a.owner, +b.owner, isAsc);
+        case 'owner': return compare(a.owner, b.owner, isAsc);
         case 'expires_at': return compare(+a.expires_at, +b.expires_at, isAsc);
-        case 'doctype': return compare(+a.doctype, +b.doctype, isAsc);
+        case 'doctype': return compare(a.doctype, b.doctype, isAsc);
         default: return 0;
       }
     });

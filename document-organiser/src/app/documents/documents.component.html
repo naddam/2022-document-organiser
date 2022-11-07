@@ -7,40 +7,37 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
         <td mat-cell *matCellDef="let row">{{row.id}}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let row">{{row.name}}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="owner">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Owner</th>
         <td mat-cell *matCellDef="let row">{{row.owner}}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="doctype">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
         <td mat-cell *matCellDef="let row">{{row.doctype}}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="expires_at">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Expires at</th>
-        <td mat-cell *matCellDef="let row">{{row.expires_at}}</td>
+        <td mat-cell *matCellDef="let row">{{row.expires_at | date:'yyyy/MM/dd'}}</td>
       </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getRecord(row)"></tr>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="background-color: rgb(39, 39, 39);">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row" (click)="getRecord(row)"></tr>
     </table>
   </div>
 
-  <mat-paginator #paginator class="floaty-bottom"
-      [length]="dataSource?.data?.length"
-      [pageIndex]="0"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20]"
-      aria-label="Select page">
+  <mat-paginator #paginator class="floaty-bottom" style="background-color: rgb(39, 39, 39);"
+    [length]="dataSource?.data?.length" [pageIndex]="0" [pageSize]="15" [pageSizeOptions]="[10, 15, 20, 50]"
+    aria-label="Select page">
   </mat-paginator>
-
   <button class="my-fab" mat-raised-button color="primary" (click)="openDetailsOverlay()">
     <mat-icon>add</mat-icon>
     Add new

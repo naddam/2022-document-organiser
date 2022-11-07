@@ -20,4 +20,19 @@ export class DocumentsService {
     return this.httpClient.get<any>(this.apiServer + "/userdocs").pipe(tap((res: any) => {
     }))
   }
+
+  public newDocument(document: any): Observable<any> {
+    return this.httpClient.post<any>(this.apiServer + "/userdocs", document).pipe(tap((res: any) => {
+    }))
+  }
+
+  public patchDocument(document: any): Observable<any> {
+    return this.httpClient.patch<any>(this.apiServer + "/userdocs/" + document.id, document).pipe(tap((res: any) => {
+    }))
+  }
+
+  public deleteDocument(id: any): Observable<any> {
+    return this.httpClient.delete<any>(this.apiServer + "/userdocs/" + id).pipe(tap((res: any) => {
+    }))
+  }
 }

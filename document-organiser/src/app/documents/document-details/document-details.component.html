@@ -1,9 +1,9 @@
-<form [formGroup]="docForm" novalidate (ngSubmit)="onSubmit()">
-  <mat-card class="shipping-card">
-    <mat-card-header>
-      <mat-card-title>New document</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+<mat-card class="shipping-card">
+  <mat-card-header>
+    <mat-card-title>{{editMode ? 'Edit document' : 'New document'}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="docForm">
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
@@ -13,8 +13,8 @@
 
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Type" formControlName="doctype">
-              <mat-option *ngFor="let type of doctypes" [value]="type.id">
+            <mat-select placeholder="Type" (selectionChange)="selCh($event)" formControlName="doctype">
+              <mat-option *ngFor="let type of doctypes" [value]="type._id">
                 {{ type.name }}
               </mat-option>
             </mat-select>
@@ -29,14 +29,19 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row">
+    </form>
+    <form [formGroup]="detailsForm">
+      <div *ngFor="let detail of details; let idx = index" class="row">
         <div class="col">
-
+          <mat-form-field class="full-width">
+            <input matInput placeholder="{{details[idx].key}}" type="{{details[idx].keyType === 'Date' ? 'date' : (details[idx].keyType === 'Number' ? 'number' : 'text')}}" formControlName="{{idx.toString()}}">
+          </mat-form-field>
         </div>
       </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-    </mat-card-actions>
-  </mat-card>
-</form>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [disabled]="detailsForm.invalid || docForm.invalid" type="button" (click)="onSubmit()">Submit</button>
+    <button *ngIf="editMode" mat-raised-button color="warn" type="button" (click)="onDelete()">Delete</button>
+  </mat-card-actions>
+</mat-card>

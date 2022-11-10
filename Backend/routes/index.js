@@ -15,6 +15,7 @@ const getUserdocMW = require('../middleware/userdoc/getUserdocMW')
 const saveUserdocMW = require('../middleware/userdoc/saveUserdocMW')
 const delUserdocMW = require('../middleware/userdoc/delUserdocMW')
 const addUserdocMW = require('../middleware/userdoc/addUserdocMW')
+const extractFileMW = require('../middleware/userdoc/extractFileMW')
 
 const loginMW = require('../middleware/auth/loginMW')
 const registerMW = require('../middleware/auth/registerMW')
@@ -121,6 +122,7 @@ module.exports = function (app) {
     );
     app.post('/userdocs',
         authMW(objectRepository, 'User'),
+        extractFileMW(objectRepository, true),
         addUserdocMW(objectRepository),
         (_, res) => { res.json({ success: true, data: res.locals.userdoc }) },
     );
@@ -132,6 +134,7 @@ module.exports = function (app) {
     app.patch('/userdocs/:userdocid',
         authMW(objectRepository, 'User'),
         getUserdocMW(objectRepository),
+        extractFileMW(objectRepository, false),
         saveUserdocMW(objectRepository),
         (_, res) => { res.json({ success: true, data: res.locals.userdoc }) },
     );

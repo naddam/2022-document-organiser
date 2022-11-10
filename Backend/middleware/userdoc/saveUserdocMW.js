@@ -10,6 +10,10 @@ module.exports = function (objectrepository) {
         if(req.body._owner && (res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin')){
             res.locals.userdoc._owner = req.body._owner;
         }
+        if(res.locals.filename){
+            res.locals.userdoc.oldfiles.push(res.locals.userdoc.currentfile);
+            res.locals.userdoc.currentfile = res.locals.filename;
+        }
         res.locals.userdoc.expires_at = req.body.expires_at;
         try{
             res.locals.userdoc.details = JSON.parse(req.body.details);

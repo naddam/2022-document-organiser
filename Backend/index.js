@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const fileUpload = require('express-fileupload');
 
 const corsOptions = {
     origin: 'http://localhost:4040',
@@ -12,6 +13,9 @@ const corsOptions = {
 const app = express();
 const port = process.env.PORT || 4041;
 
+app.use(fileUpload({
+    createParentPath: true
+}));
 app.use(cors(corsOptions))
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());

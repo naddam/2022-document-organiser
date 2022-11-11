@@ -23,6 +23,8 @@ module.exports = function (objectrepository) {
                     res.locals.userdocs[index].name = element.name;
                     res.locals.userdocs[index].owner = {_id: owner._id, name: owner.name};
                     res.locals.userdocs[index].doctype = doctype;
+                    res.locals.userdocs[index].currentfile = element.currentfile;
+                    res.locals.userdocs[index].oldfiles = element.oldfiles;
                 }
                 return next();
             });
@@ -43,6 +45,8 @@ module.exports = function (objectrepository) {
                     res.locals.userdocs[index].name = element.name;
                     res.locals.userdocs[index].owner = {_id: owner._id, name: owner.name};
                     res.locals.userdocs[index].doctype = doctype;
+                    res.locals.userdocs[index].currentfile = element.currentfile;
+                    res.locals.userdocs[index].oldfiles = element.oldfiles;
                 }
                 return next();
             });

@@ -144,4 +144,9 @@ module.exports = function (app) {
         delUserdocMW(objectRepository),
         (_, res) => { res.json({ success: true, data: res.locals.userdoc }) },
     );
+    app.get('/userdocs/:userdocid/view/:filename',
+        authMW(objectRepository, 'User'),
+        getUserdocMW(objectRepository),
+        (req, res) => { res.download('./files/'+req.params.filename) },
+    );
 }

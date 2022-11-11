@@ -10,12 +10,13 @@ export interface DocumentsItem {
   owner: string;
   doctype: string;
   expires_at: Date;
+  download: string;
 }
 
 // TODO: replace this with real data from your application
 const date = new Date(Date.now());
 const EXAMPLE_DATA: DocumentsItem[] = [
-  {name: 'ExampleDoc', id: 'ExampleID', owner: 'Example Owner', doctype: 'Example Type', expires_at: date}
+  {name: 'ExampleDoc', id: 'ExampleID', owner: 'Example Owner', doctype: 'Example Type', expires_at: date, download: 'exampleLink'}
 ];
 
 /**

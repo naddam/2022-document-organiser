@@ -34,14 +34,34 @@
       <div *ngFor="let detail of details; let idx = index" class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput placeholder="{{details[idx].key}}" type="{{details[idx].keyType === 'Date' ? 'date' : (details[idx].keyType === 'Number' ? 'number' : 'text')}}" formControlName="{{idx.toString()}}">
+            <input matInput placeholder="{{details[idx].key}}"
+              type="{{details[idx].keyType === 'Date' ? 'date' : (details[idx].keyType === 'Number' ? 'number' : 'text')}}"
+              formControlName="{{idx.toString()}}">
           </mat-form-field>
         </div>
       </div>
     </form>
+
+    <!--File upload-->
+    <input type="file" style="display: none !important;" (change)="onFileSelected($event)" #fileUpload>
+
+    <div class="file-upload">
+
+      {{file?.name || "No file uploaded yet."}}
+
+      <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+    </div>
+    <!---------------->
+
+    <!--File history-->
+    <div></div>
+    <!---------------->
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" [disabled]="detailsForm.invalid || docForm.invalid" type="button" (click)="onSubmit()">Submit</button>
+    <button mat-raised-button color="primary" [disabled]="detailsForm.invalid || docForm.invalid || (!file && !editMode)" type="button"
+      (click)="onSubmit()">Submit</button>
     <button *ngIf="editMode" mat-raised-button color="warn" type="button" (click)="onDelete()">Delete</button>
   </mat-card-actions>
 </mat-card>

@@ -26,13 +26,18 @@ export class DocumentsService {
     }))
   }
 
-  public patchDocument(document: any): Observable<any> {
-    return this.httpClient.patch<any>(this.apiServer + "/userdocs/" + document.id, document).pipe(tap((res: any) => {
+  public patchDocument(document: any, id: any): Observable<any> {
+    return this.httpClient.patch<any>(this.apiServer + "/userdocs/" + id, document).pipe(tap((res: any) => {
     }))
   }
 
   public deleteDocument(id: any): Observable<any> {
     return this.httpClient.delete<any>(this.apiServer + "/userdocs/" + id).pipe(tap((res: any) => {
+    }))
+  }
+
+  public downloadDocument(id: any, filename: any): Observable<any> {
+    return this.httpClient.get(this.apiServer + "/userdocs/" + id + '/view/' + filename, {observe: 'response', responseType: 'blob'}).pipe(tap((res: any) => {
     }))
   }
 }

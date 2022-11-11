@@ -3,10 +3,10 @@ const uuid = require('uuid');
 module.exports = function (objectrepository, required) {
 
     return function (req, res, next) {
-        if (!req.files.filedata && required) {
+        if (!req.files && required) {
             res.status(200).json({success:false, message: "Error! No files uploaded."});
         }
-        else if(!req.files.filedata && !required) {
+        else if(!req.files && !required) {
             next();
         }
         else if (req.files.filedata) {

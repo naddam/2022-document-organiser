@@ -12,11 +12,11 @@ module.exports = function (objectrepository) {
             }
             else if (res.locals.authenticatedUser.userId === `${userdoc._owner}` || res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin') {
                 res.locals.userdoc = userdoc;
+                return next();
             }
             else{
                 res.status(200).json({success:false, message: "Error! Access level too low."});
             }
-            return next();
         });
     };
 };

@@ -22,6 +22,7 @@ export class DocumentDetailsComponent implements OnInit {
   editMode: boolean = false;
   detailsForm = this.fb.group({});
   details: any[] = [];
+  file: File | undefined;
 
   @Output()
   newItemEvent = new EventEmitter<void>();
@@ -53,7 +54,7 @@ export class DocumentDetailsComponent implements OnInit {
 
       this.docIn.details.forEach((element: any, idx: number) => {
         let val = element.value
-        if(element.keyType === 'Date'){
+        if (element.keyType === 'Date') {
           let tempDate = new Date(element.value);
           val = this.datePipe.transform(tempDate, 'yyyy-MM-dd');
         }
@@ -71,22 +72,30 @@ export class DocumentDetailsComponent implements OnInit {
     this.details.forEach((element, idx) => {
       det.push({ key: element.key, keyType: element.keyType, value: this.detailsForm.value[`${idx}`] })
     });
-    let document = {
+    const formData = new FormData();
+    formData.append("filedata", this.file!);
+    formData.append("name", this.docForm.value.name);
+    formData.append("_doctype", this.docForm.value.doctype);
+    formData.append("expires_at", (new Date(this.docForm.value.expires_at)).toUTCString());
+    formData.append("details", JSON.stringify(det));
+    formData.append("id", this.editMode ? this.docIn.id : undefined);
+
+    /*let document = {
       name: this.docForm.value.name,
       _doctype: this.docForm.value.doctype,
       expires_at: (new Date(this.docForm.value.expires_at)).toUTCString(),
       details: det,
       id: this.editMode ? this.docIn.id : undefined
-    }
-    console.log(document)
-    if(!this.editMode){
-      this.documentsService.newDocument(document).subscribe((res) => {
+    }*/
+    //console.log(document)
+    if (!this.editMode) {
+      this.documentsService.newDocument(formData).subscribe((res) => {
         console.log(res);
         this.newItemEvent.emit();
       })
     }
-    else{
-      this.documentsService.patchDocument(document).subscribe((res) => {
+    else {
+      this.documentsService.patchDocument(formData, this.docIn.id).subscribe((res) => {
         console.log(res);
         this.newItemEvent.emit();
       })
@@ -111,9 +120,13 @@ export class DocumentDetailsComponent implements OnInit {
     }
   }
 
-  onDelete(){
-    this.documentsService.deleteDocument(this.docIn.id).subscribe(()=>{
+  onDelete() {
+    this.documentsService.deleteDocument(this.docIn.id).subscribe(() => {
       this.newItemEvent.emit();
     });
+  }
+
+  onFileSelected(event: any) {
+    this.file = event.target.files[0];
   }
 }

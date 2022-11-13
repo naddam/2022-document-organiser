@@ -13,8 +13,8 @@ const Userdoc = db.model('Userdoc', {
     },
     details: [{key: String, keyType: {type: String, enum: ['Number', 'String', 'Date']}, value: Schema.Types.Mixed}],
     expires_at: Date,
-    currentfile: String,
-    oldfiles: [String],
+    currentfile: {date: Date, location: String},
+    oldfiles: [{date: Date, location: String}],
 });
 
 module.exports = Userdoc;

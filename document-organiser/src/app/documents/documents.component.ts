@@ -80,7 +80,7 @@ export class DocumentsComponent implements AfterViewInit {
 
   public downloadBtn(event: any, row: any) {
     console.log(row.download);
-    this.documentsService.downloadDocument(row.id, row.download).subscribe(data => {
+    this.documentsService.downloadDocument(row.id, row.download.location).subscribe(data => {
       let fileName: string = row.name.toLowerCase();
       fileName = fileName.replace(/\W/g, '')
       console.log(fileName);

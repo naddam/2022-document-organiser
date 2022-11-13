@@ -15,7 +15,7 @@ module.exports = function (objectrepository) {
         res.locals.userdoc = new UserdocModel();
         res.locals.userdoc.name = req.body.name;
         res.locals.userdoc._doctype = req.body._doctype;
-        res.locals.userdoc.currentfile = res.locals.filename;
+        res.locals.userdoc.currentfile = {location: res.locals.filename, date: Date.now()};
         res.locals.userdoc.oldfiles = [];
         if (req.body._owner && (res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin')) {
             res.locals.userdoc._owner = req.body._owner;

@@ -12,7 +12,7 @@ module.exports = function (objectrepository) {
         }
         if(res.locals.filename){
             res.locals.userdoc.oldfiles.push(res.locals.userdoc.currentfile);
-            res.locals.userdoc.currentfile = res.locals.filename;
+            res.locals.userdoc.currentfile = {location: res.locals.filename, date: Date.now()};
         }
         res.locals.userdoc.expires_at = req.body.expires_at;
         try{

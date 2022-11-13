@@ -56,7 +56,20 @@
     <!---------------->
 
     <!--File history-->
-    <div></div>
+    <div *ngIf="editMode" class="file-history-container">
+      <div class="file-history-title">Files:</div>
+      <div class="file-history">
+        <div class="file-history-record top-line">
+          <span class="file-date">{{docIn.download.date  | date:'yyyy/MM/dd HH:mm'}}</span>
+          <span class="file-date" style="color:red">CURRENT</span>
+          <button mat-icon-button (click)="downloadBtn($event, docIn.download)"><mat-icon>download</mat-icon></button>
+        </div>
+        <div class="file-history-record" *ngFor="let record of docIn.oldfiles">
+          <span class="file-date">{{record.date   | date:'yyyy/MM/dd HH:mm'}}</span>
+          <button mat-icon-button (click)="downloadBtn($event, record)"><mat-icon>download</mat-icon></button>
+        </div>
+      </div>
+    </div>
     <!---------------->
   </mat-card-content>
   <mat-card-actions>

@@ -120,6 +120,22 @@ export class DocumentDetailsComponent implements OnInit {
     }
   }
 
+  public downloadBtn(event: any, file: any) {
+    console.log(file);
+    this.documentsService.downloadDocument(this.docIn.id, file.location).subscribe(data => {
+      let fileName: string = this.docIn.name.toLowerCase();
+      fileName = fileName.replace(/\W/g, '')
+      console.log(fileName);
+      let blob: Blob = data.body as Blob;
+      const downloadURL = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = fileName;
+      link.click();
+    });
+    event.stopPropagation();
+  }
+
   onDelete() {
     this.documentsService.deleteDocument(this.docIn.id).subscribe(() => {
       this.newItemEvent.emit();

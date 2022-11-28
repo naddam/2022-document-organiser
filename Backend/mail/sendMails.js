@@ -16,15 +16,17 @@ module.exports = function () {
                     }
                     else {
                         let temp = `Hi ${user.name}!\n\nYour following documents will expire in the the next 4 weeks:\n\n`;
+                        let send = false;
                         docs.forEach((doc) => {
                             let expirity = new Date(doc.expires_at);
                             let checkBefore = new Date();
                             checkBefore.setDate(checkBefore.getDate() + 4 * 7)
-                            if (expirity<checkBefore) {
-                                temp+=`${doc.name} -------- ${doc.expires_at.getFullYear()}/${doc.expires_at.getMonth()+1}/${doc.expires_at.getDate()}\n`;
+                            if (expirity < checkBefore) {
+                                temp += `${doc.name} -------- ${doc.expires_at.getFullYear()}/${doc.expires_at.getMonth() + 1}/${doc.expires_at.getDate()}\n`;
+                                send = true;
                             }
                         });
-                        temp+="\nThank you again for using our service,\n\nThe Document Organiser team."
+                        temp += "\nThank you for using our service,\n\nThe Document Organiser team."
                         let mailOptions = {
                             from: 'Document Organiser <doc.org.naddam@gmail.com>',
                             to: user.email,
@@ -40,10 +42,13 @@ module.exports = function () {
                             },
                         });
 
-                        transporter.sendMail(mailOptions, (error, info) => {
-                            if (error) console.log(error);
-                            else console.log('Email sent to ' + user.email + ' -- ' + info.response);
-                        });
+                        if (send) {
+
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) console.log(error);
+                                else console.log('Email sent to ' + user.email + ' -- ' + info.response);
+                            });
+                        }
                     }
                 })
             });

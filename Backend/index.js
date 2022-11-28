@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload');
 
 const sendMails = require('./mail/sendMails')
 
-cron.schedule('0 0 * * MON', function () {
+cron.schedule('0 8 * * MON', function () {
     console.log('-------------------------------');
     console.log('Starting scheduled mail process');
     sendMails();

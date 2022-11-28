@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { DoctypesService } from 'src/app/doctypes/doctypes.service';
 import { DocumentsService } from '../documents.service';
 import { take } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
+import { TypesService } from 'src/app/types/types.service';
 
 @Component({
   selector: 'app-document-details',
@@ -29,19 +29,22 @@ export class DocumentDetailsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private doctypesService: DoctypesService,
+    private doctypesService: TypesService,
     private documentsService: DocumentsService,
     private datePipe: DatePipe
   ) {
     this.doctypesService.getTypes().subscribe(res => {
       if (res.success) {
         this.doctypes = res.data;
+        if (this.docIn) {
+          this.doctypes.push({ _id: '-1', name: "Legacy type - not supported", details: [] })
+        }
       }
     })
   }
   ngOnInit(): void {
     if (this.docIn) {
-      console.log('Edit mode', this.docIn)
+      this.doctypes.push({ _id: '-1', name: "Legacy type - not supported", details: [] })
       this.editMode = true;
       let tempDate = new Date(this.docIn.expires_at);
       this.docForm = this.fb.group({

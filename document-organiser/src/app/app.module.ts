@@ -27,6 +27,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
+import { TypesComponent } from './types/types.component';
+import { TypeDetailsComponent } from './types/type-details/type-details.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { DatePipe } from '@angular/common';
     LoginComponent,
     ProfileComponent,
     DocumentsComponent,
-    DocumentDetailsComponent
+    DocumentDetailsComponent,
+    TypesComponent,
+    TypeDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -5,32 +5,32 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { AuthService } from '../auth/auth.service';
-import { DocumentDetailsComponent } from './document-details/document-details.component';
-import { DocumentsDataSource, DocumentsItem } from './documents-datasource';
-import { DocumentsService } from './documents.service';
+import { TypeDetailsComponent } from './type-details/type-details.component';
+import { TypesDataSource, TypesItem } from './types-datasource';
+import { TypesService } from './types.service';
 
 @Component({
-  selector: 'app-documents',
-  templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.scss']
+  selector: 'app-types',
+  templateUrl: './types.component.html',
+  styleUrls: ['./types.component.scss']
 })
-export class DocumentsComponent implements AfterViewInit {
+export class TypesComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatTable) table!: MatTable<DocumentsItem>;
-  dataSource: DocumentsDataSource;
+  @ViewChild(MatTable) table!: MatTable<TypesItem>;
+  dataSource: TypesDataSource;
   user: any = null;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = this.user?.role === 'User' ? ['name', 'doctype', 'expires_at',] : ['id', 'name', 'doctype', 'expires_at', 'owner',];
 
   constructor(
-    private documentsService: DocumentsService,
+    private typesService: TypesService,
     private overlay: Overlay,
     private authService: AuthService
   ) {
-    this.dataSource = new DocumentsDataSource();
-    this.documentsService.getDocuments().subscribe((res) => {
+    this.dataSource = new TypesDataSource();
+    this.typesService.getTypes().subscribe((res) => {
       if (res.success) {
         this.dataSource.data = this.processData(res.data);
         this.table.dataSource = this.dataSource;
@@ -38,7 +38,7 @@ export class DocumentsComponent implements AfterViewInit {
     })
     this.authService.user$.subscribe((user) => {
       this.user = user;
-      this.displayedColumns = this.user?.role === 'User' ? ['name', 'doctype', 'expires_at', 'download'] : ['id', 'name', 'doctype', 'expires_at', 'owner', 'download'];
+      this.displayedColumns =  ['id', 'name'];
     })
   }
 
@@ -59,7 +59,7 @@ export class DocumentsComponent implements AfterViewInit {
       hasBackdrop: true
     });
 
-    const componentRef = overlayRef.attach(new ComponentPortal(DocumentDetailsComponent));
+    const componentRef = overlayRef.attach(new ComponentPortal(TypeDetailsComponent));
 
     if (doc) {
       componentRef.instance.docIn = doc;
@@ -78,35 +78,13 @@ export class DocumentsComponent implements AfterViewInit {
       });
   }
 
-  public downloadBtn(event: any, row: any) {
-    console.log(row.download);
-    this.documentsService.downloadDocument(row.id, row.download.location).subscribe(data => {
-      let fileName: string = row.name.toLowerCase();
-      fileName = fileName.replace(/\W/g, '')
-      console.log(fileName);
-      let blob: Blob = data.body as Blob;
-      const downloadURL = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = fileName;
-      link.click();
-    });
-    event.stopPropagation();
-  }
-
   private processData(data: any[]): any[] {
-    let result: { id: any; name: any; doctype: any; expires_at: any; owner: any; }[] = [];
+    let result: { id: any; name: any; details: any[] }[] = [];
     data.forEach(element => {
       let temp = {
         id: element._id,
         name: element.name,
-        doctype: element.doctype ? element.doctype.name : 'Legacy type - not supported',
-        expires_at: new Date(element.expires_at),
-        owner: element.owner.name,
-        doctypeId: element.doctype ? element.doctype._id : '-1',
         details: element.details,
-        download: element.currentfile,
-        oldfiles: element.oldfiles
       }
       result.push(temp);
     });

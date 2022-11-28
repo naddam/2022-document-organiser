@@ -1,0 +1,49 @@
+<mat-card class="shipping-card">
+  <mat-card-header>
+    <mat-card-title>{{editMode ? 'Edit type' : 'New type'}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="docForm">
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Name" formControlName="name">
+          </mat-form-field>
+        </div>
+      </div>
+      <ng-container [formGroupName]="'details'" *ngFor="let detailForm of details.controls; let i = index">
+        <div class="row" [formGroupName]="i">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Name" formControlName="key">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Type" formControlName="keyType">
+                <mat-option *ngFor="let type of keyTypes" [value]="type">
+                  {{ type }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <button color="warn" (click)="deleteDetail(i)" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+      <div class="row">
+        <div class="col">
+          <button (click)="addDetail()" style="width: 100%; border-radius: 0;" mat-icon-button>
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [disabled]="docForm.invalid" type="button"
+      (click)="onSubmit()">Submit</button>
+    <button *ngIf="editMode" mat-raised-button color="warn" type="button" (click)="onDelete()">Delete</button>
+  </mat-card-actions>
+</mat-card>

@@ -16,6 +16,7 @@
       [opened]="drawerState">
     <mat-toolbar *ngIf="user">{{user.role}}</mat-toolbar>
     <mat-nav-list>
+      <a mat-list-item *ngIf="user && user.role==='Superadmin'" routerLink="/types">Types</a>
       <a mat-list-item routerLink="/documents">Documents</a>
       <a mat-list-item routerLink="/profile">Profile</a>
       <a mat-list-item (click)="logout()">Log out</a>

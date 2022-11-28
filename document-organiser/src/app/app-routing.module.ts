@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthSuperadminGuard } from './auth/guards/auth-superadmin.guard';
 import { AuthUserGuard } from './auth/guards/auth-user.guard';
 import { DocumentsComponent } from './documents/documents.component';
 import { LoginComponent } from './login/login.component';
+import { TypesComponent } from './types/types.component';
 import { ProfileComponent } from './users/profile/profile.component';
 
 const routes: Routes = [
@@ -20,6 +22,11 @@ const routes: Routes = [
     canActivate: [AuthUserGuard],
     component: DocumentsComponent
   },
+  {
+    path: 'types',
+    canActivate: [AuthSuperadminGuard],
+    component: TypesComponent
+  },
   // Fallback
   {
     path: '**',
@@ -30,6 +37,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthUserGuard]
+  providers: [AuthUserGuard, AuthSuperadminGuard]
 })
 export class AppRoutingModule { }

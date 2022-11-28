@@ -17,9 +17,6 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
       this.user = user;
-      if (user) {
-
-      }
     })
   }
 

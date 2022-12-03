@@ -25,6 +25,7 @@ module.exports = function (objectrepository) {
                     res.locals.userdocs[index].doctype = doctype;
                     res.locals.userdocs[index].currentfile = element.currentfile;
                     res.locals.userdocs[index].oldfiles = element.oldfiles;
+                    res.locals.userdocs[index].upgrade = element.upgrade;
                 }
                 return next();
             });
@@ -47,6 +48,7 @@ module.exports = function (objectrepository) {
                     res.locals.userdocs[index].doctype = doctype;
                     res.locals.userdocs[index].currentfile = element.currentfile;
                     res.locals.userdocs[index].oldfiles = element.oldfiles;
+                    res.locals.userdocs[index].upgrade = element.upgrade;
                 }
                 return next();
             });

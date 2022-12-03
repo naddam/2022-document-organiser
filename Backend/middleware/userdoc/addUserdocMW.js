@@ -14,6 +14,7 @@ module.exports = function (objectrepository) {
         }
         res.locals.userdoc = new UserdocModel();
         res.locals.userdoc.name = req.body.name;
+        res.locals.userdoc.upgrade = false;
         res.locals.userdoc._doctype = req.body._doctype;
         res.locals.userdoc.currentfile = {location: res.locals.filename, date: Date.now()};
         res.locals.userdoc.oldfiles = [];

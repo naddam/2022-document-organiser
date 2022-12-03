@@ -106,7 +106,8 @@ export class DocumentsComponent implements AfterViewInit {
         doctypeId: element.doctype ? element.doctype._id : '-1',
         details: element.details,
         download: element.currentfile,
-        oldfiles: element.oldfiles
+        oldfiles: element.oldfiles,
+        upgrade: element.upgrade
       }
       result.push(temp);
     });

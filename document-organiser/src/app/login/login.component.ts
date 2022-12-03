@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     this.loginError = false;
     this.authService.login(this.email2.value, this.password2.value).subscribe((res) => {
       if (res.success) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/documents']);
       }
       if (!res.success) {
         this.loginError = true;
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     this.loginError = false;
     this.authService.register(this.name.value, this.email.value, this.password.value).subscribe((res) => {
       if (res.success) {
-        this.router.navigate(['/']);
+        this.router.navigate(['/documents']);
       }
       if (!res.success) {
         this.loginError = true;

@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 module.exports = function (objectrepository) {
 
     return function (req, res, next) {
@@ -9,6 +11,22 @@ module.exports = function (objectrepository) {
                 if (err) {
                     return next(err);
                 }
+                fs.unlink('./files/' + res.locals.userdoc.currentfile.location, (err) => {
+                    if (err) {
+                      console.error(err)
+                      return
+                    }
+                    console.log('File ' + res.locals.userdoc.currentfile.location + ' deleted')
+                  })
+                res.locals.userdoc.oldfiles.forEach(element => {
+                    fs.unlink('./files/' + element.location, (err) => {
+                        if (err) {
+                          console.error(err)
+                          return
+                        }
+                        console.log('File' + element.location + ' deleted')
+                      })
+                });
                 return next();
             })
         }

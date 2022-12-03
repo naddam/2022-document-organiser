@@ -7,7 +7,7 @@
     *ngIf="user">
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
-  <span>Document organiser</span>
+  <span>Document organiser {{currentTab ? '  -  ' + currentTab : ''}}</span>
 </mat-toolbar>
 <mat-sidenav-container class="sidenav-container" style="height: calc(100% - 64px)">
   <mat-sidenav #drawer class="sidenav"

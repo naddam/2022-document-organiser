@@ -15,6 +15,7 @@ const Userdoc = db.model('Userdoc', {
     expires_at: Date,
     currentfile: {date: Date, location: String},
     oldfiles: [{date: Date, location: String}],
+    upgrade: Boolean
 });
 
 module.exports = Userdoc;

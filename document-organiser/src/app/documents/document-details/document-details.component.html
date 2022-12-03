@@ -73,8 +73,9 @@
     <!---------------->
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" [disabled]="detailsForm.invalid || docForm.invalid || (!file && !editMode) || (editMode && docIn.doctypeId ==='-1')" type="button"
+    <button mat-raised-button color="primary" [disabled]="detailsForm.invalid || docForm.invalid || (!file && !editMode) || (editMode && (docIn.doctypeId ==='-1' || upgrade))" type="button"
       (click)="onSubmit()">Submit</button>
+      <button *ngIf="editMode && upgrade" mat-raised-button color="primary" type="button" (click)="upgradeVersion()">Upgrade</button>
     <button *ngIf="editMode" mat-raised-button color="warn" type="button" (click)="onDelete()">Delete</button>
   </mat-card-actions>
 </mat-card>

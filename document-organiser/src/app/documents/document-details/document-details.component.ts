@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { DocumentsService } from '../documents.service';
-import { take } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { TypesService } from 'src/app/types/types.service';
 
@@ -23,6 +22,7 @@ export class DocumentDetailsComponent implements OnInit {
   detailsForm = this.fb.group({});
   details: any[] = [];
   file: File | undefined;
+  upgrade = false;
 
   @Output()
   newItemEvent = new EventEmitter<void>();
@@ -46,6 +46,7 @@ export class DocumentDetailsComponent implements OnInit {
     if (this.docIn) {
       this.doctypes.push({ _id: '-1', name: "Legacy type - not supported", details: [] })
       this.editMode = true;
+      this.upgrade = this.docIn.upgrade;
       let tempDate = new Date(this.docIn.expires_at);
       this.docForm = this.fb.group({
         name: [this.docIn.name, Validators.required],
@@ -83,14 +84,6 @@ export class DocumentDetailsComponent implements OnInit {
     formData.append("details", JSON.stringify(det));
     formData.append("id", this.editMode ? this.docIn.id : undefined);
 
-    /*let document = {
-      name: this.docForm.value.name,
-      _doctype: this.docForm.value.doctype,
-      expires_at: (new Date(this.docForm.value.expires_at)).toUTCString(),
-      details: det,
-      id: this.editMode ? this.docIn.id : undefined
-    }*/
-    //console.log(document)
     if (!this.editMode) {
       this.documentsService.newDocument(formData).subscribe((res) => {
         console.log(res);
@@ -110,6 +103,40 @@ export class DocumentDetailsComponent implements OnInit {
     if (doctype?.details) {
       this.buildDetailsForm(doctype.details);
     }
+  }
+
+  upgradeVersion(){
+    let doctype = this.doctypes.find(element => element._id === this.docIn.doctypeId);
+    if (doctype?.details) {
+      this.detailsForm = this.fb.group({});
+      this.details = doctype?.details;
+      if (this.doctypes.length !== 0) {
+        doctype?.details.forEach((element, idx) => {
+          let temp = '';
+          let found = (this.docIn.details.find((e: any) => e.key === element.key));
+          if(found){
+            let val = found.value
+            if (found.keyType === 'Date') {
+              let tempDate = new Date(found.value);
+              val = this.datePipe.transform(tempDate, 'yyyy-MM-dd');
+            }
+            temp = val;
+          }
+          this.detailsForm.addControl(idx.toString(), new FormControl(temp, Validators.required))
+        });
+      }
+
+      this.upgrade = false;
+    }
+    this.docIn.details.forEach((element: any, idx: number) => {
+      let val = element.value
+      if (element.keyType === 'Date') {
+        let tempDate = new Date(element.value);
+        val = this.datePipe.transform(tempDate, 'yyyy-MM-dd');
+      }
+      this.detailsForm.addControl(idx.toString(), new FormControl(val, Validators.required))
+    });
+
   }
 
   buildDetailsForm(details: any[]) {

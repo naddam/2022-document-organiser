@@ -7,6 +7,7 @@ module.exports = function (objectrepository) {
             return next();
         }
         res.locals.userdoc.name = req.body.name;
+        res.locals.userdoc.upgrade = false;
         if(req.body._owner && (res.locals.authenticatedUser.role === 'Administrator' || res.locals.authenticatedUser.role === 'Superadmin')){
             res.locals.userdoc._owner = req.body._owner;
         }
